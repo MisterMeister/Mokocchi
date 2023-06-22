@@ -5,7 +5,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('invite')
-		.setDescription('Sends the bot ionvite link for Mokocchi'),
+		.setDescription('Sends the bot invite link for Mokocchi'),
 	async execute(interaction) {
         const inviteLink = "https://discord.com/api/oauth2/authorize?client_id=1118382149368807496&permissions=8&scope=applications.commands%20bot"
         const res = turl.shorten(inviteLink)
