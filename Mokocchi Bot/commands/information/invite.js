@@ -10,11 +10,9 @@ module.exports = {
         const inviteLink = "https://discord.com/api/oauth2/authorize?client_id=1118382149368807496&permissions=8&scope=applications.commands%20bot"
         const res = turl.shorten(inviteLink)
         .then((res) => {
-            console.log(res);
             interaction.reply(res);
         }).catch((err) => {
             console.log(err);
         });
-        console.log(res);
 	},
 };
