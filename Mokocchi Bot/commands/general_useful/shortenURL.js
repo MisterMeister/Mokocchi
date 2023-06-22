@@ -19,6 +19,10 @@ module.exports = {
             isValidURL = false;
         }
 
+        if(unshortenedURL.startsWith("https://tinyurl.com")) {
+            isValidURL = false;
+        }
+
         if(!isValidURL) {
             await interaction.reply("The inputted URL is not valid, please try again with a valid url");
         } else {
