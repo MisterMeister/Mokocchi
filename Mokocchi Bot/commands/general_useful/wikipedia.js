@@ -32,6 +32,10 @@ module.exports = {
 	.setTitle(summary.title)
 	.setURL(summary.content_urls.desktop.page)
 	.setDescription(summary.extract)
+	if (typeof summary.thumbnail != "undefined") {
+		// object exists 
+		summaryEmbed.setImage(summary.thumbnail.source);
+	} 
 		//await interaction.editReply(summary.extract);
         await interaction.editReply({embeds: [summaryEmbed]});
     } else {
