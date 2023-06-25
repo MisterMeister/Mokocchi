@@ -1,6 +1,6 @@
 const wiki = require('wikipedia');
 const { SlashCommandBuilder } = require('discord.js');
-const wait = require('node:timers/promises').setTimeout;
+const { EmbedBuilder } = require('discord.js');
 
 
 module.exports = {
@@ -16,6 +16,9 @@ module.exports = {
         const searchTerm = interaction.options.getString('term');
 
 (async () => {
+
+	await interaction.deferReply();
+
     var page; 
 	try {
 		page = await wiki.page(searchTerm);
@@ -23,11 +26,14 @@ module.exports = {
         pageFound = false; 
 	}
 
-    await interaction.deferReply();
-
     if(pageFound) {
 		const summary = await page.summary();
-		await interaction.editReply(summary.extract);
+        var summaryEmbed = new EmbedBuilder()
+	.setTitle(summary.title)
+	.setURL(summary.content_urls.desktop.page)
+	.setDescription(summary.extract)
+		//await interaction.editReply(summary.extract);
+        await interaction.editReply({embeds: [summaryEmbed]});
     } else {
         await interaction.editReply("No page exists with that name")
     }
