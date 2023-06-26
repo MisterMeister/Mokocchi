@@ -21,6 +21,8 @@ module.exports = {
 
     var page; 
 
+	var currentPageIsSummary;
+
 	const select = new StringSelectMenuBuilder()
 	.setCustomId("options")
 	.addOptions(
@@ -47,9 +49,7 @@ module.exports = {
 	.setDescription(summary.extract)
 
 	var newEmbed = new EmbedBuilder() 
-	.setTitle(summary.title)
-	.setURL(summary.content_urls.desktop.page)
-	.setDescription(summary.extract)
+	.setTitle("new embed")
 
 	const row = new ActionRowBuilder()
 	.addComponents(select)
@@ -63,6 +63,7 @@ module.exports = {
 		embeds: [summaryEmbed],
 		components: [row],
 	});
+	currentPageIsSummary = true; 
 
 	var collector; 
 	try {
@@ -73,8 +74,19 @@ module.exports = {
 
 	collector.on('collect', async i => {
 		const selection = i.values[0];
-		await i.reply(`${i.user} has selected ${selection}!`);
 
+		if((selection == "summary") && (!currentPageIsSummary)) {
+			await interaction.editReply({
+				embeds: [newEmbed],
+				components: [row],
+			});
+		} else if(selection == "suggestions") {
+			currentPageIsSummary = false; 
+			await interaction.editReply({
+				embeds: [newEmbed],
+				components: [row],
+			});
+		}
 	});	
 
     } else {
