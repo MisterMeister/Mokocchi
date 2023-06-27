@@ -48,8 +48,15 @@ module.exports = {
 	.setURL(summary.content_urls.desktop.page)
 	.setDescription(summary.extract)
 
-	var newEmbed = new EmbedBuilder() 
-	.setTitle("new embed")
+	var searches = await wiki.search(searchTerm)
+
+	var searchEmbed = new EmbedBuilder() 
+	.setTitle("Other similar searches");
+
+
+	for(const obj of searches.results) {
+		searchEmbed.addFields({ name: `${obj.title}`, value: `Page ID: ${obj.pageid}`, inline: true})
+	}
 
 	const row = new ActionRowBuilder()
 	.addComponents(select)
@@ -77,13 +84,13 @@ module.exports = {
 
 		if((selection == "summary") && (!currentPageIsSummary)) {
 			await interaction.editReply({
-				embeds: [newEmbed],
+				embeds: [summaryEmbed],
 				components: [row],
 			});
 		} else if(selection == "suggestions") {
 			currentPageIsSummary = false; 
 			await interaction.editReply({
-				embeds: [newEmbed],
+				embeds: [searchEmbed],
 				components: [row],
 			});
 		}
