@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, BanOptions } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,45 +10,45 @@ module.exports = {
             .setRequired(true))
         .addStringOption(option =>
             option.setName("reason")
-            .setDescription("reason for the ban")
+            .setDescription("reason for the kick")
             .setRequired(false)),
 	async execute(interaction) {
 
         try{
 
-            const guildOfBan = interaction.guild;
+            const guildOfKick = interaction.guild;
 
-            const userToBeBanned = interaction.options.getMember("user"); 
-            const bannedMemberUsername = userToBeBanned.user.username;
+            const userToBeKicked = interaction.options.getMember("user"); 
+            const kickedMemberUsername = userToBeKicked.user.username;
 
             console.log(interaction.member.permissions)
 
-            console.log(`is the user bannable: ${userToBeBanned.moderatable}`)
-            var banPerms = true;
-            var banReason = interaction.options.getString("reason");
-            console.log(banReason)
+            console.log(`is the user kickable: ${userToBeKicked.moderatable}`)
+            var kickPerms = true;
+            var kickReason = interaction.options.getString("reason");
+            console.log(kickReason)
 
 
             try {
-                banPerms = interaction.member.permissions.any("BAN_MEMBERS");
+                kickPerms = interaction.member.permissions.any("KICK_MEMBERS");
             } catch(err) {
-                banPerms = false; 
+                kickPerms = false; 
             }
-            console.log(`can you ban: ${banPerms}`)
+            console.log(`can you kick: ${kickPerms}`)
 
-            if(banReason === null) {
-                banReason = "No reason provided"
+            if(kickReason === null) {
+                kickReason = "No reason provided"
             }
-            if((userToBeBanned.bannable) && (banPerms)) {
-                guildOfBan.members.ban(userToBeBanned, {
-                    reason: `${banReason}`
+            if((userToBeKicked.kickable) && (kickPerms)) {
+                guildOfKick.members.kick(userToBeKicked, {
+                    reason: `${kickReason}`
                 })
-                await interaction.reply(`${bannedMemberUsername} has been banned`)
+                await interaction.reply(`${kickedMemberUsername} has been kicked`)
             } else {
-                if(!userToBeBanned.bannable) {
-                    await interaction.reply(`#ERROR: ${bannedMemberUsername} cannot be banned by Mokocchi Bot (Bot has lower hierarchy)`)
+                if(!userToBeKicked.kickable) {
+                    await interaction.reply(`#ERROR: ${kickedMemberUsername} cannot be kicked by Mokocchi Bot (Bot has lower hierarchy)`)
                 } else {
-                    await interaction.reply("#ERROR: You cannot ban a member above you/You lack ban permissions")
+                    await interaction.reply("#ERROR: You cannot kick a member above you/You lack kick permissions")
                 }
             }
             
