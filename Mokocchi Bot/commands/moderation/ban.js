@@ -30,7 +30,7 @@ module.exports = {
 
 
             try {
-                banPerms = interaction.member.permissions.any("BAN_MEMBERS");
+                banPerms = interaction.member.permissions.any("BanMembers");
             } catch(err) {
                 banPerms = false; 
             }

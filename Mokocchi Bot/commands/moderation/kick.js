@@ -30,7 +30,7 @@ module.exports = {
 
 
             try {
-                kickPerms = interaction.member.permissions.any("KICK_MEMBERS");
+                kickPerms = interaction.member.permissions.any("KickMembers");
             } catch(err) {
                 kickPerms = false; 
             }
