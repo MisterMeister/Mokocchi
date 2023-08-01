@@ -65,6 +65,12 @@ module.exports = {
                     // invalid time
                     interaction.reply("#ERROR: Invalid time, must be a valid integer from 0 to max value")
                 } else {
+
+                    console.log(`Can the bot mute: ${mutedUser.moderatable}`)
+
+                    if(!mutedUser.moderatable) {
+                        interaction.reply("#ERROR: You/Bot lacks permissions to timeout")
+                    } else {
                     if((muteTime * increment > 28*day)) {
                         interaction.reply("#ERROR: You cannot timeout someone for more than 28 days")
                     } else {
@@ -81,6 +87,7 @@ module.exports = {
                     }
                 }
             }
+        }
 
         } catch (err) {
             console.log(err)
