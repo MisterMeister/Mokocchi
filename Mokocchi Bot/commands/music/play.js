@@ -11,7 +11,9 @@ module.exports = {
 
 	async execute(interaction) {
 
-        var channel = interaction.member.voice.channel
+        var channel = interaction.member.voice.channelId
+
+        console.log(`__________________________________________________voice:${channel}`)
 
         if(!channel) {
             interaction.reply(`"#ERROR: You must be in a voice channel in order to play music" ${channel}`)
